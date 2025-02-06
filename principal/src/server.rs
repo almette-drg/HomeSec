@@ -44,7 +44,7 @@ impl ImageReceiver for ImageReceiverInstance {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::]:50051".parse()?;
+    let addr = "0.0.0.0:50051".parse()?;
     let greeter = ImageReceiverInstance::default();
 
     std::env::var("IMG_SAVE_FILE_PATH").expect("IMG_SAVE_FILE_PATH environment value");
