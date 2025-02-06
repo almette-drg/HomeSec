@@ -1,0 +1,1 @@
+E:\Projects\HomeSec\principal\target\debug\image-input-server.exe: E:\Projects\HomeSec\principal\build.rs E:\Projects\HomeSec\principal\proto E:\Projects\HomeSec\principal\proto/image-input.proto E:\Projects\HomeSec\principal\src\server.rs E:\Projects\HomeSec\principal\target\debug\build\principal-e586e879768a08a9\out\image_receiver.rs

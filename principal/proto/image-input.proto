@@ -1,0 +1,17 @@
+syntax = "proto3";
+package image_receiver;
+
+service ImageReceiver{
+    rpc ReceiveImage (ReceiveImageRequest) returns (ReceiveImageReply);
+}
+
+message ReceiveImageRequest{
+    string source = 1;
+    int64 width = 2;
+    int64 height = 3;
+    bytes image_data = 4;
+}
+
+message ReceiveImageReply{
+    bool success = 1;
+}
