@@ -11,7 +11,7 @@ use image_receiver::image_receiver_server::{ImageReceiver, ImageReceiverServer};
 use image_receiver::{ReceiveImageRequest, ReceiveImageReply};
 
 pub mod image_receiver {
-    tonic::include_proto!("image_receiver"); // The string specified here must match the proto package name
+    tonic::include_proto!("image_receiver");
 }
 
 #[derive(Debug, Default)]
@@ -44,10 +44,9 @@ impl ImageReceiver for ImageReceiverInstance {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse()?;
+    let addr = "[::]:50051".parse()?;
     let greeter = ImageReceiverInstance::default();
 
-    //let IMAGE_SAVE_FILE_PATH: Result<String, VarError> = std::env::var("IMG_SAVE_FILE_PATH");
     std::env::var("IMG_SAVE_FILE_PATH").expect("IMG_SAVE_FILE_PATH environment value");
     Server::builder()
         .add_service(ImageReceiverServer::new(greeter))
