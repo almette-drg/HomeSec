@@ -3,6 +3,7 @@ use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
 use std::string;
+use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use tonic::{transport::Server, Request, Response, Status};
@@ -26,6 +27,12 @@ impl ImageReceiver for ImageReceiverInstance {
         println!("Got a request: {:?}", request);
 
         let mut img_save_file_path: String = std::env::var("IMG_SAVE_FILE_PATH").expect("IMG_SAVE_FILE_PATH environment variable");
+
+        if(!Path::exists(Path::new(&img_save_file_path))){
+            print!("Image file path doesn't exist -- creating folder");
+            fs::create_dir(Path::new(&img_save_file_path));
+        }
+
         img_save_file_path = img_save_file_path + "/" + &format!("{}", SystemTime::now().duration_since(UNIX_EPOCH).expect("milliseconds").as_millis()) + ".png";
 
         let path = Path::new(&img_save_file_path);
