@@ -1,1 +1,0 @@
-E:\Projects\HomeSec\principal\target\debug\principal.exe: E:\Projects\HomeSec\principal\build.rs E:\Projects\HomeSec\principal\proto E:\Projects\HomeSec\principal\proto/image-input.proto E:\Projects\HomeSec\principal\src\main.rs

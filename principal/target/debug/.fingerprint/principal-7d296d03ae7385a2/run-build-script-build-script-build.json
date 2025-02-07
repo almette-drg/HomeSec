@@ -1,1 +1,0 @@
-{"rustc":524190467255570058,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[4541519023467868151,"build_script_build",false,4859448991280222657]],"local":[{"RerunIfChanged":{"output":"debug\\build\\principal-7d296d03ae7385a2\\output","paths":["proto/image-input.proto","proto"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
