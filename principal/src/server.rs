@@ -1,8 +1,6 @@
-use std::env::VarError;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
-use std::string;
 use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -16,10 +14,10 @@ pub mod image_receiver {
 }
 
 #[derive(Debug, Default)]
-pub struct ImageReceiverInstance {}
+pub struct ImageReceiverService {}
 
 #[tonic::async_trait]
-impl ImageReceiver for ImageReceiverInstance {
+impl ImageReceiver for ImageReceiverService {
     async fn receive_image(
         &self,
         request: Request<ReceiveImageRequest>,
@@ -28,9 +26,9 @@ impl ImageReceiver for ImageReceiverInstance {
 
         let mut img_save_file_path: String = std::env::var("IMG_SAVE_FILE_PATH").expect("IMG_SAVE_FILE_PATH environment variable");
 
-        if(!Path::exists(Path::new(&img_save_file_path))){
+        if !Path::exists(Path::new(&img_save_file_path)) {
             print!("Image file path doesn't exist -- creating folder");
-            fs::create_dir(Path::new(&img_save_file_path));
+            let _ = fs::create_dir(Path::new(&img_save_file_path));
         }
 
         img_save_file_path = img_save_file_path + "/" + &format!("{}", SystemTime::now().duration_since(UNIX_EPOCH).expect("milliseconds").as_millis()) + ".png";
@@ -39,7 +37,7 @@ impl ImageReceiver for ImageReceiverInstance {
         let file = File::create_new(&path).expect("File to be created");
         let mut writer = BufWriter::new(file);
         writer.write_all(&request.get_ref().image_data).expect("Data to be written");
-        writer.flush();
+        let _ = writer.flush();
 
         let reply = ReceiveImageReply {
             success: true,
@@ -52,11 +50,11 @@ impl ImageReceiver for ImageReceiverInstance {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "0.0.0.0:50051".parse()?;
-    let greeter = ImageReceiverInstance::default();
+    let img_receiver = ImageReceiverService::default();
 
     std::env::var("IMG_SAVE_FILE_PATH").expect("IMG_SAVE_FILE_PATH environment value");
     Server::builder()
-        .add_service(ImageReceiverServer::new(greeter))
+        .add_service(ImageReceiverServer::new(img_receiver))
         .serve(addr)
         .await?;
 
